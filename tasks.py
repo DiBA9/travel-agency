@@ -1,15 +1,11 @@
 from crewai import Task
 from textwrap import dedent
 
-
-# This is an example of how to define custom tasks.
-# You can define as many tasks as you want.
-# You can also define custom agents in agents.py
-class CustomTasks:
+class TravelTasks:
     def __tip_section(self):
         return "If you do your BEST WORK, I'll give you a $10,000 commission!"
 
-    def plan_itinerary(self, agent, city, travel_dates, interests):
+    def plan_itinerary(self, agent, cities, travel_dates, interests):
         return Task(
             description=dedent(
                 f"""
@@ -21,18 +17,17 @@ class CustomTasks:
                 from arrival to departure, integrating the city guide information with practical travel logistics.
 
             **Parameters**:
-            - City: {city}
-            - Trip Date: {travel_date}
-            - Traveler Interest: {interests}
+            - Cities: {cities}
+            - Trip Dates: {travel_dates}
+            - Traveler Interests: {interests}
 
             **Note**: {self.__tip_section()}
-
         """
             ),
             agent=agent,
         )
 
-    def identify_city(self, agent, origin, cities, interests, travel_dates):
+    def identify_city(self, agent, origin, cities, travel_dates, interests):
         return Task(
             description=dedent(
                 f"""
@@ -46,9 +41,30 @@ class CustomTasks:
 
             **Parameters**:
             - Origin: {origin}
-            - City: {city}
-            - Trip Date: {travel_date}
-            - Traveler Interest: {interests}
+            - Cities: {cities}
+            - Trip Dates: {travel_dates}
+            - Traveler Interests: {interests}
+
+            **Note**: {self.__tip_section()}
+        """
+            ),
+            agent=agent,
+        )
+
+        def gather_city_info(self, agent, cities, travel_dates, interests):
+        return Task(
+            description=dedent(
+                f"""
+            **Task**: Gather In-depth City Guide Information
+	        **Description**: Complie an in-depth guide for the selected city, gathering information about
+                key attractions, local customs, special events, and daily activity recommendations.
+                This guide should provide a thorough overview of what the city has to offer, including
+                hidden gems, cultural hotspots, must-visit landmarks, weather forecasts, and high-level cost 
+
+            **Parameters**:
+            - Cities: {cities}
+            - Trip Dates: {travel_dates}
+            - Traveler Interests: {interests}
 
             **Note**: {self.__tip_section()}
         """
