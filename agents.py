@@ -25,7 +25,7 @@ class CustomAgents:
         self.OpenAIGPT4 = ChatOpenAI(model_name="gpt-4", temperature=0.7)
         self.Ollama = Ollama(model="openhermes")
 
-    def agent_1_name(self):
+    def expert_travel_agent(self):
         return Agent(
             role="Define agent 1 role here",
             backstory=dedent(f"""Define agent 1 backstory here"""),
@@ -36,9 +36,20 @@ class CustomAgents:
             llm=self.OpenAIGPT35,
         )
 
-    def agent_2_name(self):
+    def city_selection_expert(self):
         return Agent(
             role="Define agent 2 role here",
+            backstory=dedent(f"""Define agent 2 backstory here"""),
+            goal=dedent(f"""Define agent 2 goal here"""),
+            # tools=[tool_1, tool_2],
+            allow_delegation=False,
+            verbose=True,
+            llm=self.OpenAIGPT35,
+        )
+
+    def local_tour_guide(self):
+        return Agent(
+            role="Define agent 3 role here",
             backstory=dedent(f"""Define agent 2 backstory here"""),
             goal=dedent(f"""Define agent 2 goal here"""),
             # tools=[tool_1, tool_2],
