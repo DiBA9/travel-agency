@@ -27,9 +27,15 @@ class CustomAgents:
 
     def expert_travel_agent(self):
         return Agent(
-            role="Define agent 1 role here",
-            backstory=dedent(f"""Define agent 1 backstory here"""),
-            goal=dedent(f"""Define agent 1 goal here"""),
+            role="Expert Travel Agent",
+            backstory=dedent(f"""
+                            I am an expert in travel planning and logistics.
+                            I have decades of experience making travel iteneraries.
+                            """),
+            goal=dedent(f"""
+                        Create a 7-day travel itinerary with detailed per-day plans,
+                        including budget, packing suggestions, and safety tips.
+                        """),
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
@@ -38,9 +44,13 @@ class CustomAgents:
 
     def city_selection_expert(self):
         return Agent(
-            role="Define agent 2 role here",
-            backstory=dedent(f"""Define agent 2 backstory here"""),
-            goal=dedent(f"""Define agent 2 goal here"""),
+            role="City Selection Expert",
+            backstory=dedent(f"""
+                            I am an expert at analyzing travel data to pick ideal destinations.
+                            """),
+            goal=dedent(f"""
+                        Select the best cities based on weather, season, prices, and traveler interests.
+                        """),
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
@@ -49,9 +59,13 @@ class CustomAgents:
 
     def local_tour_guide(self):
         return Agent(
-            role="Define agent 3 role here",
-            backstory=dedent(f"""Define agent 2 backstory here"""),
-            goal=dedent(f"""Define agent 2 goal here"""),
+            role="Local Tour Guide",
+            backstory=dedent(f"""
+                            I am a knowledgeable local guide with extensive information about the city, it's attractions and customs.
+                            """),
+            goal=dedent(f"""
+                        Provide the best insights about a selected city.
+                        """),
             # tools=[tool_1, tool_2],
             allow_delegation=False,
             verbose=True,
