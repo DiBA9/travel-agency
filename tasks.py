@@ -55,19 +55,19 @@ class TravelTasks:
         return Task(
             description=dedent(
                 f"""
-            **Task**: Gather In-depth City Guide Information
-	        **Description**: Complie an in-depth guide for the selected city, gathering information about
+                **Task**: Gather In-depth City Guide Information
+                **Description**: Compile an in-depth guide for the selected city, gathering information about
                 key attractions, local customs, special events, and daily activity recommendations.
                 This guide should provide a thorough overview of what the city has to offer, including
                 hidden gems, cultural hotspots, must-visit landmarks, weather forecasts, and high-level cost 
 
-            **Parameters**:
-            - Cities: {cities}
-            - Trip Dates: {travel_dates}
-            - Traveler Interests: {interests}
+                **Parameters**:
+                - Cities: {cities}
+                - Trip Dates: {travel_dates}
+                - Traveler Interests: {interests}
 
-            **Note**: {self.__tip_section()}
-        """
+                **Note**: {self.__tip_section()}
+                """
             ),
             agent=agent,
         )
