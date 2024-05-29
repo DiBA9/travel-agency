@@ -1,20 +1,18 @@
 import os
-# import sqlite3
-
+import sqlite3
 from textwrap import dedent
 from crewai import Crew
 from agents import TravelAgents
 from tasks import TravelTasks
 from dotenv import load_dotenv
 
-# say something
 load_dotenv()
 
 # Ensure the /data directory exists
-# os.makedirs("../data", exist_ok=True)
+os.makedirs("../data", exist_ok=True)
 
 # Path to the SQLite database file in the /data directory
-# database_path = "../data/trip_results.db"
+database_path = "../data/trip_results.db"
 
 class TripCrew:
     def __init__(self, origin, cities, travel_dates, interests):
@@ -78,33 +76,46 @@ if __name__ == "__main__":
 
     trip_crew = TripCrew(origin, cities, travel_dates, interests)
     result = trip_crew.run()
+
     print("\n\n########################")
     print("## Here is your custom crew run result:")
     print("########################\n")
-    print(result)
+    print(result)  # Debug print
 
     # Save the results to the SQLite database in the /data directory
-    # conn = sqlite3.connect(database_path)
-    # cursor = conn.cursor()
+    conn = sqlite3.connect(database_path)
+    cursor = conn.cursor()
 
     # Create the results table if it doesn't exist
-    # cursor.execute('''
-    # CREATE TABLE IF NOT EXISTS results (
-    #     id INTEGER PRIMARY KEY,
-    #     origin TEXT,
-    #     cities TEXT,
-    #     travel_dates TEXT,
-    #     interests TEXT,
-    #     result TEXT
-    # )
-    # ''')
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS results (
+        id INTEGER PRIMARY KEY,
+        origin TEXT,
+        cities TEXT,
+        travel_dates TEXT,
+        interests TEXT,
+        result TEXT
+    )
+    ''')
 
     # Insert the result into the table
-    # cursor.execute('''
-    # INSERT INTO results (origin, cities, travel_dates, interests, result)
-    # VALUES (?, ?, ?, ?, ?)
-    # ''', (origin, cities, travel_dates, interests, str(result)))
+    cursor.execute('''
+    INSERT INTO results (origin, cities, travel_dates, interests, result)
+    VALUES (?, ?, ?, ?, ?)
+    ''', (origin, cities, travel_dates, interests, str(result)))
 
-    # Commit the transaction and close the connection
-    # conn.commit()
-    # conn.close()
+    # Commit the transaction
+    conn.commit()
+
+    # Fetch the last inserted record
+    cursor.execute('''
+    SELECT * FROM results WHERE id = (SELECT MAX(id) FROM results)
+    ''')
+    latest_record = cursor.fetchone()
+    print("\n\n########################")
+    print("## Latest Record:")
+    print("########################\n")
+    print(latest_record)
+
+    # Close the database connection
+    conn.close()
