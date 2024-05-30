@@ -2,20 +2,21 @@ import importlib
 from crewai import Agent
 from textwrap import dedent
 from langchain_openai import ChatOpenAI
-from services.agent_services import retrieve_agent_by_role
+from tools.agent_tools import retrieve_agent_by_role
 
 def load_tool(tool_path: str):
     """Load a tool dynamically given its class and method name."""
     print(f"Processing tool path: {tool_path}")  # Debugging statement
     try:
-        class_name, method_name = tool_path.split('.', 1)
-        module = importlib.import_module(f'tools.{class_name.lower()}')  # Assuming all tools are in the 'tools' package
+        module_name, class_method = tool_path.rsplit('.', 1)
+        class_name, method_name = class_method.split('.', 1)
+        module = importlib.import_module(module_name)
         cls = getattr(module, class_name)
         return getattr(cls, method_name)
     except ValueError as e:
         raise ValueError(f"Error processing tool path '{tool_path}': {e}")
     except ImportError as e:
-        raise ImportError(f"Module for class '{class_name}' could not be imported: {e}")
+        raise ImportError(f"Module '{module_name}' could not be imported: {e}")
     except AttributeError as e:
         raise AttributeError(f"Class or method not found in '{tool_path}': {e}")
 

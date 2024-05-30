@@ -1,5 +1,5 @@
 from crewai import Crew
-from agents import TravelAgents
+from agents import Agents
 from tasks import TravelTasks
 
 class TripCrew:
@@ -11,13 +11,13 @@ class TripCrew:
 
     def run(self):
         # Define your custom agents and tasks in agents.py and tasks.py
-        agents = TravelAgents()
+        agents = Agents()
         tasks = TravelTasks()
 
         # Define your custom agents and tasks here
-        expert_travel_agent = agents.expert_travel_agent()
-        city_selection_expert = agents.city_selection_expert()
-        local_tour_guide = agents.local_tour_guide()
+        expert_travel_agent = agents.get_agent("Expert Travel Agent")
+        city_selection_expert = agents.get_agent("City Selection Expert")
+        local_tour_guide = agents.get_agent("Local Tour Guide")
 
         # Custom tasks include agent name and variables as input
         plan_itinerary = tasks.plan_itinerary(

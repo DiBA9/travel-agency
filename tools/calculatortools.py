@@ -13,4 +13,4 @@ class CalculatorTools():
         try:
             return eval(operation)
         except SyntaxError:
-            return "Error: Invalid syntax in mathemtical expression."
+            return "Error: Invalid syntax in mathematical expression."
