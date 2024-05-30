@@ -1,4 +1,5 @@
 #ignore this in github
+poetry.lock
 
 # environment variables
 .env
