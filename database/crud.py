@@ -47,3 +47,6 @@ def delete_agent(db: Session, role: str) -> None:
     if agent:
         db.delete(agent)
         db.commit()
+
+def get_all_agents(db: Session):
+    return db.query(AgentDetails).all()

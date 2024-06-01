@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from database.models import AgentDetails, SessionLocal
-from database.crud import create_agent, get_agent_by_role, update_agent, delete_agent
+from database.crud import create_agent, get_agent_by_role, update_agent, delete_agent, get_all_agents
 
 def create_agent_record(role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: int) -> AgentDetails:
     db: Session = SessionLocal()
@@ -50,5 +50,13 @@ def delete_agent_record(role: str) -> None:
     db: Session = SessionLocal()
     try:
         delete_agent(db, role)
+    finally:
+        db.close()
+
+def retrieve_all_agents() -> list[AgentDetails]:
+    db: Session = SessionLocal()
+    try:
+        all_agents = get_all_agents(db)
+        return all_agents
     finally:
         db.close()
