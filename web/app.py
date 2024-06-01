@@ -31,7 +31,7 @@ def create_agent():
         goal = request.form['goal']
         tools = request.form['tools']
         llm_model_name = request.form['llm_model_name']
-        llm_temperature = int(request.form['llm_temperature'])
+        llm_temperature = float(request.form['llm_temperature'])  # Change to float
 
         create_agent_record(role, backstory, goal, tools, llm_model_name, llm_temperature)
         flash('Agent created successfully!', 'success')
@@ -51,7 +51,7 @@ def update_agent(role):
         goal = request.form['goal']
         tools = request.form['tools']
         llm_model_name = request.form['llm_model_name']
-        llm_temperature = int(request.form['llm_temperature'])
+        llm_temperature = float(request.form['llm_temperature'])  # Change to float
 
         update_agent_record(role, backstory, goal, tools, llm_model_name, llm_temperature)
         flash('Agent updated successfully!', 'success')
@@ -73,5 +73,9 @@ def agent_details(role):
         return redirect(url_for('agents'))
     return render_template('agent_details.html', agent=agent)
 
+@app.route('/test')
+def test():
+    return "Test page works!"
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)

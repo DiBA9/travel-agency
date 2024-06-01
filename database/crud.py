@@ -30,7 +30,7 @@ def create_agent(db: Session, agent: AgentDetails) -> AgentDetails:
     db.refresh(agent)
     return agent
 
-def update_agent(db: Session, role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: int) -> AgentDetails:
+def update_agent(db: Session, role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: float) -> AgentDetails:
     agent = db.query(AgentDetails).filter(AgentDetails.role == role).first()
     if agent:
         agent.backstory = backstory
