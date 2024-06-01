@@ -1,6 +1,6 @@
 from crewai import Crew
-from agents import Agents
-from tasks import TravelTasks
+from controllers.agents import Agents
+from controllers.tasks import TravelTasks
 
 class TripCrew:
     def __init__(self, origin, cities, travel_dates, interests):

@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models import TripResult, AgentDetails
+from database.models import TripResult, AgentDetails
 
 #### Trip
 

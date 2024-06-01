@@ -2,7 +2,7 @@ import importlib
 from crewai import Agent
 from textwrap import dedent
 from langchain_openai import ChatOpenAI
-from services.agent_services import retrieve_agent_by_role
+from services.agent import retrieve_agent_by_role
 
 def load_tool(tool_path: str):
     """Load a tool dynamically given its class and method name."""

@@ -1,6 +1,6 @@
 from textwrap import dedent
-from services.agent_services import create_agent_record, retrieve_agent_by_role, update_agent_tools
-from models import init_db
+from services.agent import create_agent_record, retrieve_agent_by_role, update_agent_tools
+from database.models import init_db
 
 # Initialize the database
 init_db()

@@ -1,8 +1,8 @@
 import os
 from textwrap import dedent
 from dotenv import load_dotenv
-from services.trip_services import run_trip_crew, save_trip_result, get_latest_result
-from models import init_db
+from services.trip import run_trip_crew, save_trip_result, get_latest_result
+from database.models import init_db
 
 # Load environment variables
 load_dotenv()
