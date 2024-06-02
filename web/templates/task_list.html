@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Tasks</h2>
+<a href="{{ url_for('create_task') }}" class="button">Create Task</a>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Agent</th>
+        <th>Actions</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <td><a href="{{ url_for('task_details', id=task.id) }}">{{ task.name }}</a></td>
+        <td>{{ task.agent }}</td>
+        <td>
+            <a href="{{ url_for('update_task', id=task.id) }}">Edit</a>
+            <form action="{{ url_for('delete_task', id=task.id) }}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

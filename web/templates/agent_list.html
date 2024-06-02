@@ -2,27 +2,18 @@
 
 {% block content %}
 <h2>Agents</h2>
+<a href="{{ url_for('create_agent') }}" class="button">Create Agent</a>
 <table>
     <tr>
         <th>Role</th>
-        <th>Backstory</th>
-        <th>Goal</th>
-        <th>Tools</th>
-        <th>LLM Model Name</th>
-        <th>LLM Temperature</th>
         <th>Actions</th>
     </tr>
     {% for agent in agents %}
     <tr>
         <td><a href="{{ url_for('agent_details', role=agent.role) }}">{{ agent.role }}</a></td>
-        <td>{{ agent.backstory }}</td>
-        <td>{{ agent.goal }}</td>
-        <td>{{ agent.tools }}</td>
-        <td>{{ agent.llm_model_name }}</td>
-        <td>{{ agent.llm_temperature }}</td>
         <td>
             <a href="{{ url_for('update_agent', role=agent.role) }}">Edit</a>
-            <form action="{{ url_for('delete_agent', role=agent.role) }}" method="POST" style="display:inline;">
+            <form action="{{ url_for('delete_agent', role=agent.role) }}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
         </td>

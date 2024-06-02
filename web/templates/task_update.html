@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Update Task</h2>
+<form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{ task.name }}" required><br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required>{{ task.description }}</textarea><br>
+    <label for="agent">Agent:</label>
+    <input type="text" id="agent" name="agent" value="{{ task.agent }}" required><br>
+    <label for="expected_output">Expected Output:</label>
+    <textarea id="expected_output" name="expected_output" required>{{ task.expected_output }}</textarea><br>
+    <label for="tools">Tools:</label>
+    <input type="text" id="tools" name="tools" value="{{ task.tools }}"><br>
+    <label for="async_execution">Async Execution:</label>
+    <input type="checkbox" id="async_execution" name="async_execution" {% if task.async_execution %}checked{% endif %}><br>
+    <label for="context">Context:</label>
+    <input type="text" id="context" name="context" value="{{ task.context }}"><br>
+    <label for="config">Config:</label>
+    <textarea id="config" name="config">{{ task.config }}</textarea><br>
+    <label for="output_json">Output JSON:</label>
+    <input type="checkbox" id="output_json" name="output_json" {% if task.output_json %}checked{% endif %}><br>
+    <label for="output_pydantic">Output Pydantic:</label>
+    <input type="checkbox" id="output_pydantic" name="output_pydantic" {% if task.output_pydantic %}checked{% endif %}><br>
+    <label for="output_file">Output File:</label>
+    <input type="text" id="output_file" name="output_file" value="{{ task.output_file }}"><br>
+    <label for="callback">Callback:</label>
+    <input type="text" id="callback" name="callback" value="{{ task.callback }}"><br>
+    <label for="human_input">Human Input:</label>
+    <input type="checkbox" id="human_input" name="human_input" {% if task.human_input %}checked{% endif %}><br>
+    <button type="submit">Update Task</button>
+</form>
+{% endblock %}

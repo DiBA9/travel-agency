@@ -1,5 +1,37 @@
 from sqlalchemy.orm import Session
-from database.models import TripResult, AgentDetails
+from database.models import TripResult, AgentDetails, TaskDetails
+
+#### Tasks
+def create_task(db: Session, task: TaskDetails):
+    db.add(task)
+    db.commit()
+    db.refresh(task)
+    return task
+
+def get_task_by_id(db: Session, task_id: int):
+    return db.query(TaskDetails).filter(TaskDetails.id == task_id).first()
+
+def get_task_by_name(db: Session, task_name: str):
+    return db.query(TaskDetails).filter(TaskDetails.name == task_name).first()
+
+def get_all_tasks(db: Session):
+    return db.query(TaskDetails).all()
+
+def update_task(db: Session, task_id: int, task_data: dict):
+    task = db.query(TaskDetails).filter(TaskDetails.id == task_id).first()
+    if task:
+        for key, value in task_data.items():
+            setattr(task, key, value)
+        db.commit()
+        db.refresh(task)
+    return task
+
+def delete_task(db: Session, task_id: int):
+    task = db.query(TaskDetails).filter(TaskDetails.id == task_id).first()
+    if task:
+        db.delete(task)
+        db.commit()
+    return task
 
 #### Trip
 

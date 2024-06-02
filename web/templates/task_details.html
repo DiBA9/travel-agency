@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Task Details</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <td>{{ task.name }}</td>
+    </tr>
+    <tr>
+        <th>Description</th>
+        <td>{{ task.description }}</td>
+    </tr>
+    <tr>
+        <th>Agent</th>
+        <td>{{ task.agent }}</td>
+    </tr>
+    <tr>
+        <th>Expected Output</th>
+        <td>{{ task.expected_output }}</td>
+    </tr>
+    <tr>
+        <th>Tools</th>
+        <td>{{ task.tools }}</td>
+    </tr>
+    <tr>
+        <th>Async Execution</th>
+        <td>{{ task.async_execution }}</td>
+    </tr>
+    <tr>
+        <th>Context</th>
+        <td>{{ task.context }}</td>
+    </tr>
+    <tr>
+        <th>Config</th>
+        <td>{{ task.config }}</td>
+    </tr>
+    <tr>
+        <th>Output JSON</th>
+        <td>{{ task.output_json }}</td>
+    </tr>
+    <tr>
+        <th>Output Pydantic</th>
+        <td>{{ task.output_pydantic }}</td>
+    </tr>
+    <tr>
+        <th>Output File</th>
+        <td>{{ task.output_file }}</td>
+    </tr>
+    <tr>
+        <th>Callback</th>
+        <td>{{ task.callback }}</td>
+    </tr>
+    <tr>
+        <th>Human Input</th>
+        <td>{{ task.human_input }}</td>
+    </tr>
+</table>
+<a href="{{ url_for('update_task', id=task.id) }}" class="button">Edit Task</a>
+<form action="{{ url_for('delete_task', id=task.id) }}" method="post" style="display:inline;">
+    <button type="submit">Delete Task</button>
+</form>
+{% endblock %}

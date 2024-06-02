@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Create Task</h2>
+<form method="post">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required><br>
+    <label for="description">Description:</label>
+    <textarea id="description" name="description" required></textarea><br>
+    <label for="agent">Agent:</label>
+    <input type="text" id="agent" name="agent" required><br>
+    <label for="expected_output">Expected Output:</label>
+    <textarea id="expected_output" name="expected_output" required></textarea><br>
+    <label for="tools">Tools:</label>
+    <input type="text" id="tools" name="tools"><br>
+    <label for="async_execution">Async Execution:</label>
+    <input type="checkbox" id="async_execution" name="async_execution"><br>
+    <label for="context">Context:</label>
+    <input type="text" id="context" name="context"><br>
+    <label for="config">Config:</label>
+    <textarea id="config" name="config"></textarea><br>
+    <label for="output_json">Output JSON:</label>
+    <input type="checkbox" id="output_json" name="output_json"><br>
+    <label for="output_pydantic">Output Pydantic:</label>
+    <input type="checkbox" id="output_pydantic" name="output_pydantic"><br>
+    <label for="output_file">Output File:</label>
+    <input type="text" id="output_file" name="output_file"><br>
+    <label for="callback">Callback:</label>
+    <input type="text" id="callback" name="callback"><br>
+    <label for="human_input">Human Input:</label>
+    <input type="checkbox" id="human_input" name="human_input"><br>
+    <button type="submit">Create Task</button>
+</form>
+{% endblock %}
