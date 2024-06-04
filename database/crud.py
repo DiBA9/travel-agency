@@ -35,9 +35,6 @@ def delete_task(db: Session, task_id: int):
 
 #### Trip
 
-def get_latest_trip_result(db: Session):
-    return db.query(TripResult).order_by(TripResult.id.desc()).first()
-
 def create_trip_result(db: Session, origin: str, cities: str, travel_dates: str, interests: str, result: str):
     db_trip_result = TripResult(
         origin=origin,
@@ -50,6 +47,11 @@ def create_trip_result(db: Session, origin: str, cities: str, travel_dates: str,
     db.commit()
     db.refresh(db_trip_result)
     return db_trip_result
+
+def get_latest_trip_result(db: Session):
+    return db.query(TripResult).order_by(TripResult.id.desc()).first()
+
+
 
 #### Agent
 
