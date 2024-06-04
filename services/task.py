@@ -36,6 +36,9 @@ def retrieve_task_by_id(task_id: int) -> TaskDetails:
     finally:
         db.close()
 
+def retrieve_task_by_name(db: Session, name: str) -> TaskDetails:
+    return db.query(TaskDetails).filter(TaskDetails.name == name).first()
+
 def retrieve_all_tasks() -> list:
     db: Session = SessionLocal()
     try:

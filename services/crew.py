@@ -2,6 +2,7 @@ from database.crud import get_latest_trip_result, create_trip_result
 from database.models import SessionLocal
 from controllers.crews import TripCrew
 
+#### Trip
 def run_trip_crew(origin, cities, travel_dates, interests):
     trip_crew = TripCrew(origin, cities, travel_dates, interests)
     result = trip_crew.run()

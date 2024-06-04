@@ -1,73 +1,86 @@
 from crewai import Task
 from textwrap import dedent
+from database.models import SessionLocal, TaskDetails
+from services.task import retrieve_task_by_name
+from services.tool import load_tool
 
-class TravelTasks:
-    def __tip_section(self):
+class TaskBase:
+    def tip_section(self):
         return "If you do your BEST WORK, I'll give you a $10,000 commission!"
 
-    def plan_itinerary(self, agent, cities, travel_dates, interests):
+#### Travel
+class TravelTasks(TaskBase):
+    def __init__(self):
+        self.db = SessionLocal()
+
+    def get_task(self, task_name, agent, **kwargs):
+        # Fetch task details from the database
+        task_details = retrieve_task_by_name(self.db, task_name)
+        if not task_details:
+            raise ValueError(f"Task '{task_name}' not found in the database.")
+
+        # Include tip_section in the kwargs
+        kwargs['tip_section'] = self.tip_section()
+
+        # Construct the task description with provided parameters
+        description = dedent(task_details.description.format(**kwargs))
+
+        # Load tools as callable objects
+        tools = [load_tool(tool.strip()) for tool in task_details.tools.split(',')]
+
+        # Create and return the Task object
         return Task(
-            description=dedent(
-                f"""
-                **Task**: Develop a 7-day Travel Itinerary
-                **Description**: Expand the city guide into a full 7-day travel itinerary with detailed 
-                per-day plans, including weather forecasts, places to eat, packing suggestions, 
-                and a budget breakdown. You MUST suggest actual places to visit, actual hotels to stay,
-                and actual restaurants to go to. This itinerary should cover all aspects of the trip,
-                from arrival to departure, integrating the city guide information with practical travel logistics.
-
-                **Parameters**:
-                - Cities: {cities}
-                - Trip Dates: {travel_dates}
-                - Traveler Interests: {interests}
-
-                **Note**: {self.__tip_section()}
-                """
-            ),
+            name=task_details.name,
+            description=description,
             agent=agent,
+            expected_output=task_details.expected_output,
+            tools=tools,
+            async_execution=task_details.async_execution,
+            context=task_details.context.split(',') if task_details.context else [],
+            config=task_details.config,
+            output_json=task_details.output_json,
+            output_pydantic=task_details.output_pydantic,
+            output_file=task_details.output_file,
+            callback=task_details.callback,
+            human_input=task_details.human_input,
         )
 
-    def identify_city(self, agent, origin, cities, travel_dates, interests):
+    def __del__(self):
+        self.db.close()
+
+# Example of another task class inheriting from TaskBase
+class AnotherTaskClass(TaskBase):
+    def __init__(self):
+        self.db = SessionLocal()
+
+    def get_another_task(self, task_name, agent, **kwargs):
+        # Fetch task details from the database
+        task_details = retrieve_task_by_name(self.db, task_name)
+        if not task_details:
+            raise ValueError(f"Task '{task_name}' not found in the database.")
+
+        # Include tip_section in the kwargs
+        kwargs['tip_section'] = self.tip_section()
+
+        # Construct the task description with provided parameters
+        description = dedent(task_details.description.format(**kwargs))
+
+        # Create and return the Task object
         return Task(
-            description=dedent(
-                f"""
-                **Task**: Identify the Best City for the Trip
-                **Description**: Analyze and select the best city for the trip based on specific
-                criteria such as weather patterns, seasonal events, and travel costs. 
-                This task involves comparing multiple cities, considering factors like current weather
-                conditions, upcoming cultural or seasonal events, and overall travel expenses. 
-                your final answer must be a detailed report on the chosen city, 
-                including actual flight costs, weather forecast, and attractions. 
-
-                **Parameters**:
-                - Origin: {origin}
-                - Cities: {cities}
-                - Trip Dates: {travel_dates}
-                - Traveler Interests: {interests}
-
-                **Note**: {self.__tip_section()}
-                """
-            ),
+            name=task_details.name,
+            description=description,
             agent=agent,
+            expected_output=task_details.expected_output,
+            tools=[tool.strip() for tool in task_details.tools.split(',')],
+            async_execution=task_details.async_execution,
+            context=task_details.context.split(',') if task_details.context else [],
+            config=task_details.config,
+            output_json=task_details.output_json,
+            output_pydantic=task_details.output_pydantic,
+            output_file=task_details.output_file,
+            callback=task_details.callback,
+            human_input=task_details.human_input,
         )
 
-    def gather_city_info(self, agent, cities, travel_dates, interests):
-        return Task(
-            description=dedent(
-                f"""
-                **Task**: Gather In-depth City Guide Information
-                **Description**: Compile an in-depth guide for the selected city, gathering information about
-                key attractions, local customs, special events, and daily activity recommendations.
-                This guide should provide a thorough overview of what the city has to offer, including
-                hidden gems, cultural hotspots, must-visit landmarks, weather forecasts, and high-level cost 
-
-                **Parameters**:
-                - Cities: {cities}
-                - Trip Dates: {travel_dates}
-                - Traveler Interests: {interests}
-
-                **Note**: {self.__tip_section()}
-                """
-            ),
-            agent=agent,
-        )
+    def __del__(self):
+        self.db.close()
