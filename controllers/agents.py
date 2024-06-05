@@ -1,7 +1,7 @@
 from crewai import Agent
 from textwrap import dedent
 from langchain_openai import ChatOpenAI
-from services.tool import load_tool
+from controllers.tools import load_tool
 from services.agent import retrieve_agent_by_role
 
 class Agents:
@@ -9,7 +9,7 @@ class Agents:
         self.OpenAIGPT35 = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.7)
         self.OpenAIGPT4 = ChatOpenAI(model_name="gpt-4", temperature=0.7)
 
-    def get_agent(self, role: str) -> Agent:
+    def get_agent_by_role(self, role: str) -> Agent:
         agent_details = retrieve_agent_by_role(role)
         if not agent_details:
             raise ValueError(f"Agent role '{role}' not found in the database.")
@@ -35,5 +35,5 @@ class Agents:
 # Example usage:
 if __name__ == "__main__":
     agents = Agents()
-    agent = agents.get_agent("Expert Travel Agent")
+    agent = agents.get_agent_by_role("Expert Travel Agent")
     print(agent)

@@ -15,12 +15,12 @@ class TripCrew:
         tasks = TravelTasks()
 
         # Custom agents retrieved dynamically
-        expert_travel_agent = agents.get_agent("Expert Travel Agent")
-        city_selection_expert = agents.get_agent("City Selection Expert")
-        local_tour_guide = agents.get_agent("Local Tour Guide")
+        expert_travel_agent = agents.get_agent_by_role("Expert Travel Agent")
+        city_selection_expert = agents.get_agent_by_role("City Selection Expert")
+        local_tour_guide = agents.get_agent_by_role("Local Tour Guide")
 
         # Custom tasks retrieved dynamically
-        plan_itinerary = tasks.get_task(
+        plan_itinerary = tasks.get_task_by_name(
             "Plan 7-day Itinerary",
             agent=expert_travel_agent,
             cities=self.cities,
@@ -28,7 +28,7 @@ class TripCrew:
             interests=self.interests
         )
 
-        identify_city = tasks.get_task(
+        identify_city = tasks.get_task_by_name(
             "Identify City",
             agent=city_selection_expert,
             origin=self.origin,
@@ -37,7 +37,7 @@ class TripCrew:
             interests=self.interests
         )
 
-        gather_city_info = tasks.get_task(
+        gather_city_info = tasks.get_task_by_name(
             "Gather City Info",
             agent=local_tour_guide,
             cities=self.cities,

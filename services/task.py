@@ -1,6 +1,13 @@
 from sqlalchemy.orm import Session
-from database.models import TaskDetails, SessionLocal
-from database.crud import create_task, get_task_by_id, get_all_tasks, update_task, delete_task
+from database.models import SessionLocal, TaskDetails
+from database.crud import (
+    create_task, 
+    get_task_by_id, 
+    get_task_by_name,
+    get_all_tasks, 
+    update_task, 
+    delete_task
+)
 
 def create_task_record(name: str, description: str, agent: str, expected_output: str, tools: str,
                        async_execution: bool, context: str, config: dict, output_json: bool,
@@ -36,8 +43,13 @@ def retrieve_task_by_id(task_id: int) -> TaskDetails:
     finally:
         db.close()
 
-def retrieve_task_by_name(db: Session, name: str) -> TaskDetails:
-    return db.query(TaskDetails).filter(TaskDetails.name == name).first()
+def retrieve_task_by_name(task_name: str) -> TaskDetails:
+    db: Session = SessionLocal()
+    try:
+        task = get_task_by_name(db, task_name)
+        return task
+    finally:
+        db.close()
 
 def retrieve_all_tasks() -> list:
     db: Session = SessionLocal()

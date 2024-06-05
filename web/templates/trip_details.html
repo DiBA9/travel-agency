@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Trip Details</h2>
+<p><strong>ID:</strong> {{ trip_details.id }}</p>
+<p><strong>Origin:</strong> {{ trip_details.origin }}</p>
+<p><strong>Cities:</strong> {{ trip_details.cities }}</p>
+<p><strong>Travel Dates:</strong> {{ trip_details.travel_dates }}</p>
+<p><strong>Interests:</strong> {{ trip_details.interests }}</p>
+<p><strong>Result:</strong> <br> {{ trip_details.result | replace('\n', '<br>') | safe }}</p>
+{% endblock %}

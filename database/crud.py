@@ -35,6 +35,23 @@ def delete_task(db: Session, task_id: int):
 
 #### Trip
 
+def get_all_trip_results(db: Session):
+    return db.query(TripResult).all()
+
+def get_trip_results_by_city(db: Session, city: str):
+    return db.query(TripResult).filter(TripResult.cities.contains(city)).all()
+
+def get_trip_results_sorted_by_date(db: Session, descending: bool = True):
+    if descending:
+        return db.query(TripResult).order_by(TripResult.id.desc()).all()
+    return db.query(TripResult).order_by(TripResult.id.asc()).all()
+
+def get_latest_trip_result(db: Session):
+    return db.query(TripResult).order_by(TripResult.id.desc()).first()
+
+def get_trip_result_by_id(db: Session, id: int):
+    return db.query(TripResult).filter(TripResult.id == id).first()
+
 def create_trip_result(db: Session, origin: str, cities: str, travel_dates: str, interests: str, result: str):
     db_trip_result = TripResult(
         origin=origin,
@@ -47,11 +64,17 @@ def create_trip_result(db: Session, origin: str, cities: str, travel_dates: str,
     db.commit()
     db.refresh(db_trip_result)
     return db_trip_result
-
-def get_latest_trip_result(db: Session):
-    return db.query(TripResult).order_by(TripResult.id.desc()).first()
-
-
+    db_trip_result = TripResult(
+        origin=origin,
+        cities=cities,
+        travel_dates=travel_dates,
+        interests=interests,
+        result=result
+    )
+    db.add(db_trip_result)
+    db.commit()
+    db.refresh(db_trip_result)
+    return db_trip_result
 
 #### Agent
 

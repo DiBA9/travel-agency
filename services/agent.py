@@ -1,6 +1,12 @@
 from sqlalchemy.orm import Session
 from database.models import AgentDetails, SessionLocal
-from database.crud import create_agent, get_agent_by_role, update_agent, delete_agent, get_all_agents
+from database.crud import (
+    create_agent, 
+    get_agent_by_role, 
+    update_agent, 
+    delete_agent, 
+    get_all_agents
+)
 
 def create_agent_record(role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: int) -> AgentDetails:
     db: Session = SessionLocal()

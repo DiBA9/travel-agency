@@ -1,6 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Welcome to the Management System</h2>
-<p>Use the navigation menu to manage agents and tasks.</p>
+<h2>Trip Planning Results</h2>
+
+<form method="get" action="{{ url_for('index') }}">
+    <label for="city">Filter by City:</label>
+    <input type="text" id="city" name="city" value="{{ request.args.get('city', '') }}">
+    <label for="sort_by">Sort by:</label>
+    <select id="sort_by" name="sort_by">
+        <option value="date" {% if request.args.get('sort_by') == 'date' %}selected{% endif %}>Date</option>
+    </select>
+    <button type="submit">Apply</button>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Origin</th>
+            <th>Cities</th>
+            <th>Travel Dates</th>
+            <th>Interests</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for trip in trip_results %}
+        <tr>
+            <td><a href="{{ url_for('trip_details', id=trip.id) }}">{{ trip.id }}</a></td>
+            <td>{{ trip.origin }}</td>
+            <td>{{ trip.cities }}</td>
+            <td>{{ trip.travel_dates }}</td>
+            <td>{{ trip.interests }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

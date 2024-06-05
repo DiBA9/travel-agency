@@ -1,22 +1,37 @@
-
 import sys
 import os
 
+# Add the project root directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from flask import Flask, render_template, request, redirect, url_for, flash
-from services.agent import create_agent_record, retrieve_agent_by_role, update_agent_record, delete_agent_record, retrieve_all_agents
+from services.agent import create_agent_record, update_agent_record, delete_agent_record, retrieve_all_agents, retrieve_agent_by_role
 from services.task import create_task_record, retrieve_task_by_id, retrieve_all_tasks, update_task_record, delete_task_record
+# from controllers.agents import get_agent_by_role
+# from controllers.tasks import
+from controllers.trips import (
+    get_all_trip_results,
+    get_trip_results_by_city,
+    get_trip_results_sorted_by_date,
+    get_trip_result_details
+)
 from database.models import init_db
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'your_secret_key'  # Replace with a secure key
 
+# Initialize the database
 init_db()
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    sort_by = request.args.get('sort_by', 'date')
+    city_filter = request.args.get('city', None)
+    if city_filter:
+        trip_results = get_trip_results_by_city(city_filter)
+    else:
+        trip_results = get_trip_results_sorted_by_date(descending=(sort_by == 'date'))
+    return render_template('index.html', trip_results=trip_results)
 
 #### Task
 @app.route('/tasks')
@@ -84,15 +99,7 @@ def delete_task(id):
     flash('Task deleted successfully!', 'success')
     return redirect(url_for('tasks'))
 
-@app.route('/task/<int:id>', methods=['GET'])
-def task_details(id):
-    task = retrieve_task_by_id(id)
-    if not task:
-        flash(f'Task with id {id} not found', 'error')
-        return redirect(url_for('tasks'))
-    return render_template('task_details.html', task=task)
-
-#### Agent
+#### Agents
 @app.route('/agents', methods=['GET'])
 def agents():
     agents = retrieve_all_agents()
@@ -106,7 +113,7 @@ def create_agent():
         goal = request.form['goal']
         tools = request.form['tools']
         llm_model_name = request.form['llm_model_name']
-        llm_temperature = float(request.form['llm_temperature'])
+        llm_temperature = float(request.form['llm_temperature'])  # Change to float
 
         create_agent_record(role, backstory, goal, tools, llm_model_name, llm_temperature)
         flash('Agent created successfully!', 'success')
@@ -126,7 +133,7 @@ def update_agent(role):
         goal = request.form['goal']
         tools = request.form['tools']
         llm_model_name = request.form['llm_model_name']
-        llm_temperature = float(request.form['llm_temperature'])
+        llm_temperature = float(request.form['llm_temperature'])  # Change to float
 
         update_agent_record(role, backstory, goal, tools, llm_model_name, llm_temperature)
         flash('Agent updated successfully!', 'success')
@@ -147,6 +154,16 @@ def agent_details(role):
         flash(f'Agent with role {role} not found', 'error')
         return redirect(url_for('agents'))
     return render_template('agent_details.html', agent=agent)
+
+#### Trip
+
+@app.route('/trip_details/<int:id>', methods=['GET'])
+def trip_details(id):
+    trip_details = get_trip_result_details(id)
+    if not trip_details:
+        flash(f'Trip result with ID {id} not found', 'error')
+        return redirect(url_for('index'))
+    return render_template('trip_details.html', trip_details=trip_details)
 
 @app.route('/test')
 def test():
