@@ -1,50 +1,60 @@
+from typing import List
 from sqlalchemy.orm import Session
-from database.models import SessionLocal, TripResult
+from database.models import SessionLocal, TripResults
 from database.crud import (
-    get_all_trip_results,
-    get_trip_results_by_city,
-    get_trip_results_sorted_by_date,
-    get_latest_trip_result,
-    get_trip_result_by_id,
-    create_trip_result
+    create_trip_result,
+    retrieve_trip_result,
+    retrieve_trip_result_by_origin,
+    retrieve_all_trip_results,
+    update_trip_result,
+    delete_trip_result
 )
 
-def retrieve_all_trip_results() -> list:
+def create_trip_record(origin: str, cities: str, travel_dates: str, interests: str, result: str) -> TripResults:
     db: Session = SessionLocal()
     try:
-        results = get_all_trip_results(db)
-        return results
+        trip_result = TripResults(
+            origin=origin,
+            cities=cities,
+            travel_dates=travel_dates,
+            interests=interests,
+            result=result
+        )
+        return create_trip_result(db, trip_result)
     finally:
         db.close()
 
-def retrieve_trip_results_by_city(city: str) -> list:
+def retrieve_trip_by_id(result_id: int) -> TripResults:
     db: Session = SessionLocal()
     try:
-        results = get_trip_results_by_city(db, city)
-        return results
+        return retrieve_trip_result(db, result_id)
     finally:
         db.close()
 
-def retrieve_trip_results_sorted_by_date(descending: bool = True) -> list:
+def retrieve_trip_by_origin(origin: str) -> TripResults:
     db: Session = SessionLocal()
     try:
-        results = get_trip_results_sorted_by_date(db, descending)
-        return results
+        return retrieve_trip_result_by_origin(db, origin)
     finally:
         db.close()
 
-def retrieve_trip_result_by_id(id: int) -> TripResult:
+def retrieve_all_trip_results() -> List[TripResults]:
     db: Session = SessionLocal()
     try:
-        result = get_trip_result_by_id(db, id)
-        return result
+        return retrieve_all_trip_results(db)
     finally:
         db.close()
 
-def save_trip_result(origin: str, cities: str, travel_dates: str, interests: str, result: str) -> TripResult:
+def update_trip_record(result_id: int, trip_data: dict) -> TripResults:
     db: Session = SessionLocal()
     try:
-        created_result = create_trip_result(db, origin, cities, travel_dates, interests, result)
-        return created_result
+        return update_trip_result(db, result_id, trip_data)
+    finally:
+        db.close()
+
+def delete_trip_record(result_id: int) -> None:
+    db: Session = SessionLocal()
+    try:
+        delete_trip_result(db, result_id)
     finally:
         db.close()

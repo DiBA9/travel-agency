@@ -1,109 +1,132 @@
+from typing import List
 from sqlalchemy.orm import Session
-from database.models import TripResult, AgentDetails, TaskDetails
+from database.models import (
+    AgentDetails, 
+    CrewDetails, 
+    TaskDetails, 
+    TripResults
+)
 
-#### Tasks
-def create_task(db: Session, task: TaskDetails):
-    db.add(task)
+# AgentDetails CRUD operations
+def create_agent(db: Session, agent_details: AgentDetails) -> AgentDetails:
+    db.add(agent_details)
     db.commit()
-    db.refresh(task)
-    return task
+    db.refresh(agent_details)
+    return agent_details
 
-def get_task_by_id(db: Session, task_id: int):
-    return db.query(TaskDetails).filter(TaskDetails.id == task_id).first()
+def retrieve_agent_by_id(db: Session, agent_id: int) -> AgentDetails:
+    return db.query(AgentDetails).filter(AgentDetails.id == agent_id).first()
 
-def get_task_by_name(db: Session, task_name: str):
-    return db.query(TaskDetails).filter(TaskDetails.name == task_name).first()
-
-def get_all_tasks(db: Session):
-    return db.query(TaskDetails).all()
-
-def update_task(db: Session, task_id: int, task_data: dict):
-    task = db.query(TaskDetails).filter(TaskDetails.id == task_id).first()
-    if task:
-        for key, value in task_data.items():
-            setattr(task, key, value)
-        db.commit()
-        db.refresh(task)
-    return task
-
-def delete_task(db: Session, task_id: int):
-    task = db.query(TaskDetails).filter(TaskDetails.id == task_id).first()
-    if task:
-        db.delete(task)
-        db.commit()
-    return task
-
-#### Trip
-
-def get_all_trip_results(db: Session):
-    return db.query(TripResult).all()
-
-def get_trip_results_by_city(db: Session, city: str):
-    return db.query(TripResult).filter(TripResult.cities.contains(city)).all()
-
-def get_trip_results_sorted_by_date(db: Session, descending: bool = True):
-    if descending:
-        return db.query(TripResult).order_by(TripResult.id.desc()).all()
-    return db.query(TripResult).order_by(TripResult.id.asc()).all()
-
-def get_latest_trip_result(db: Session):
-    return db.query(TripResult).order_by(TripResult.id.desc()).first()
-
-def get_trip_result_by_id(db: Session, id: int):
-    return db.query(TripResult).filter(TripResult.id == id).first()
-
-def create_trip_result(db: Session, origin: str, cities: str, travel_dates: str, interests: str, result: str):
-    db_trip_result = TripResult(
-        origin=origin,
-        cities=cities,
-        travel_dates=travel_dates,
-        interests=interests,
-        result=result
-    )
-    db.add(db_trip_result)
-    db.commit()
-    db.refresh(db_trip_result)
-    return db_trip_result
-    db_trip_result = TripResult(
-        origin=origin,
-        cities=cities,
-        travel_dates=travel_dates,
-        interests=interests,
-        result=result
-    )
-    db.add(db_trip_result)
-    db.commit()
-    db.refresh(db_trip_result)
-    return db_trip_result
-
-#### Agent
-
-def get_agent_by_role(db: Session, role: str) -> AgentDetails:
+def retrieve_agent_by_role(db: Session, role: str) -> AgentDetails:
     return db.query(AgentDetails).filter(AgentDetails.role == role).first()
 
-def create_agent(db: Session, agent: AgentDetails) -> AgentDetails:
-    db.add(agent)
-    db.commit()
-    db.refresh(agent)
-    return agent
-
-def update_agent(db: Session, role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: float) -> AgentDetails:
-    agent = db.query(AgentDetails).filter(AgentDetails.role == role).first()
-    if agent:
-        agent.backstory = backstory
-        agent.goal = goal
-        agent.tools = tools
-        agent.llm_model_name = llm_model_name
-        agent.llm_temperature = llm_temperature
-        db.commit()
-        db.refresh(agent)
-    return agent
-
-def delete_agent(db: Session, role: str) -> None:
-    agent = db.query(AgentDetails).filter(AgentDetails.role == role).first()
-    if agent:
-        db.delete(agent)
-        db.commit()
-
-def get_all_agents(db: Session):
+def retrieve_all_agents(db: Session) -> List[AgentDetails]:
     return db.query(AgentDetails).all()
+
+def update_agent(db: Session, agent_id: int, agent_data: dict) -> AgentDetails:
+    agent_details = retrieve_agent_by_id(db, agent_id)
+    if agent_details:
+        for key, value in agent_data.items():
+            setattr(agent_details, key, value)
+        db.commit()
+        db.refresh(agent_details)
+    return agent_details
+
+def delete_agent(db: Session, agent_id: int) -> None:
+    agent_details = retrieve_agent_by_id(db, agent_id)
+    if agent_details:
+        db.delete(agent_details)
+        db.commit()
+
+# CrewDetails CRUD operations
+def create_crew(db: Session, crew_details: CrewDetails) -> CrewDetails:
+    db.add(crew_details)
+    db.commit()
+    db.refresh(crew_details)
+    return crew_details
+
+def retrieve_crew_by_id(db: Session, crew_id: int) -> CrewDetails:
+    return db.query(CrewDetails).filter(CrewDetails.id == crew_id).first()
+
+def retrieve_crew_by_name(db: Session, name: str) -> CrewDetails:
+    return db.query(CrewDetails).filter(CrewDetails.name == name).first()
+
+def retrieve_all_crews(db: Session) -> List[CrewDetails]:
+    return db.query(CrewDetails).all()
+
+def update_crew(db: Session, crew_id: int, crew_data: dict) -> CrewDetails:
+    crew_details = retrieve_crew_by_id(db, crew_id)
+    if crew_details:
+        for key, value in crew_data.items():
+            setattr(crew_details, key, value)
+        db.commit()
+        db.refresh(crew_details)
+    return crew_details
+
+def delete_crew(db: Session, crew_id: int) -> None:
+    crew_details = retrieve_crew_by_id(db, crew_id)
+    if crew_details:
+        db.delete(crew_details)
+        db.commit()
+
+# TaskDetails CRUD operations
+def create_task(db: Session, task_details: TaskDetails) -> TaskDetails:
+    db.add(task_details)
+    db.commit()
+    db.refresh(task_details)
+    return task_details
+
+def retrieve_task_by_id(db: Session, task_id: int) -> TaskDetails:
+    return db.query(TaskDetails).filter(TaskDetails.id == task_id).first()
+
+def retrieve_task_by_name(db: Session, name: str) -> TaskDetails:
+    return db.query(TaskDetails).filter(TaskDetails.name == name).first()
+
+def retrieve_all_tasks(db: Session) -> List[TaskDetails]:
+    return db.query(TaskDetails).all()
+
+def update_task(db: Session, task_id: int, task_data: dict) -> TaskDetails:
+    task_details = retrieve_task_by_id(db, task_id)
+    if task_details:
+        for key, value in task_data.items():
+            setattr(task_details, key, value)
+        db.commit()
+        db.refresh(task_details)
+    return task_details
+
+def delete_task(db: Session, task_id: int) -> None:
+    task_details = retrieve_task_by_id(db, task_id)
+    if task_details:
+        db.delete(task_details)
+        db.commit()
+
+# TripResults CRUD operations
+def create_trip_result(db: Session, trip_result: TripResults) -> TripResults:
+    db.add(trip_result)
+    db.commit()
+    db.refresh(trip_result)
+    return trip_result
+
+def retrieve_trip_result_by_id(db: Session, result_id: int) -> TripResults:
+    return db.query(TripResults).filter(TripResults.id == result_id).first()
+
+def retrieve_trip_result_by_origin(db: Session, origin: str) -> TripResults:
+    return db.query(TripResults).filter(TripResults.origin == origin).first()
+
+def retrieve_all_trip_results(db: Session) -> List[TripResults]:
+    return db.query(TriptDetails).all()
+
+def update_trip_result(db: Session, result_id: int, trip_result_data: dict) -> TripResults:
+    trip_result = retrieve_trip_result(db, result_id)
+    if trip_result:
+        for key, value in trip_result_data.items():
+            setattr(trip_result, key, value)
+        db.commit()
+        db.refresh(trip_result)
+    return trip_result
+
+def delete_trip_result(db: Session, result_id: int) -> None:
+    trip_result = retrieve_trip_result(db, result_id)
+    if trip_result:
+        db.delete(trip_result)
+        db.commit()
