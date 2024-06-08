@@ -1,6 +1,10 @@
 #ignore this in github
-poetry.lock
+.DS_Store
+alembic/
 archive/
+alembic.ini
+poetry.lock
+
 
 # environment variables
 .env

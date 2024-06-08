@@ -101,32 +101,32 @@ def delete_task(db: Session, task_id: int) -> None:
         db.commit()
 
 # TripResults CRUD operations
-def create_trip_result(db: Session, trip_result: TripResults) -> TripResults:
-    db.add(trip_result)
+def create_trip_results(db: Session, trip_results: TripResults) -> TripResults:
+    db.add(trip_results)
     db.commit()
-    db.refresh(trip_result)
-    return trip_result
+    db.refresh(trip_results)
+    return trip_results
 
-def retrieve_trip_result_by_id(db: Session, result_id: int) -> TripResults:
+def retrieve_trip_results_by_id(db: Session, result_id: int) -> TripResults:
     return db.query(TripResults).filter(TripResults.id == result_id).first()
 
-def retrieve_trip_result_by_origin(db: Session, origin: str) -> TripResults:
+def retrieve_trip_results_by_origin(db: Session, origin: str) -> TripResults:
     return db.query(TripResults).filter(TripResults.origin == origin).first()
 
 def retrieve_all_trip_results(db: Session) -> List[TripResults]:
-    return db.query(TriptDetails).all()
+    return db.query(TripResults).all()
 
-def update_trip_result(db: Session, result_id: int, trip_result_data: dict) -> TripResults:
-    trip_result = retrieve_trip_result(db, result_id)
-    if trip_result:
-        for key, value in trip_result_data.items():
-            setattr(trip_result, key, value)
+def update_trip_results(db: Session, result_id: int, trip_results_data: dict) -> TripResults:
+    trip_results = retrieve_trip_results_by_id(db, result_id)
+    if trip_results:
+        for key, value in trip_results_data.items():
+            setattr(trip_results, key, value)
         db.commit()
-        db.refresh(trip_result)
-    return trip_result
+        db.refresh(trip_results)
+    return trip_results
 
-def delete_trip_result(db: Session, result_id: int) -> None:
-    trip_result = retrieve_trip_result(db, result_id)
-    if trip_result:
-        db.delete(trip_result)
+def delete_trip_results(db: Session, result_id: int) -> None:
+    trip_results = retrieve_trip_results_by_id(db, result_id)
+    if trip_results:
+        db.delete(trip_results)
         db.commit()

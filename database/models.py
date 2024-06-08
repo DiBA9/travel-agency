@@ -1,6 +1,7 @@
-from sqlalchemy import create_engine, Column, Integer, String, Text, Float, Boolean, JSON
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+import datetime
+
+from sqlalchemy import create_engine, Column, Integer, String, Text, Float, Boolean, JSON, DateTime
+from sqlalchemy.orm import declarative_base, sessionmaker
 from config import DATABASE_URL
 
 Base = declarative_base()
@@ -63,7 +64,7 @@ class TaskDetails(Base):
     updated_at = Column(String, nullable=False)
 
 class TripResults(Base):
-    __tablename__ = 'results'
+    __tablename__ = 'trip_results'
     id = Column(Integer, primary_key=True, index=True)
     origin = Column(String, nullable=False)
     cities = Column(String, nullable=False)
