@@ -10,7 +10,9 @@ from database.crud import (
     delete_agent
 )
 
-def create_agent_record(role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: float) -> AgentDetails:
+def create_agent_record(role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: float,
+        created_at, updated_at
+    ) -> AgentDetails:
     db: Session = SessionLocal()
     try:
         agent_details = AgentDetails(
@@ -19,7 +21,9 @@ def create_agent_record(role: str, backstory: str, goal: str, tools: str, llm_mo
             goal=goal,
             tools=tools,
             llm_model_name=llm_model_name,
-            llm_temperature=llm_temperature
+            llm_temperature=llm_temperature,
+            created_at=created_at,
+            updated_at=updated_at
         )
         return create_agent(db, agent_details)
     finally:
@@ -46,16 +50,9 @@ def retrieve_all_agents() -> List[AgentDetails]:
     finally:
         db.close()
 
-def update_agent_record(agent_id: int, role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: float) -> AgentDetails:
+def update_agent_record(agent_id: int, agent_data: dict) -> AgentDetails:
     db: Session = SessionLocal()
     try:
-        agent_data = {
-            "backstory": backstory,
-            "goal": goal,
-            "tools": tools,
-            "llm_model_name": llm_model_name,
-            "llm_temperature": llm_temperature
-        }
         return update_agent(db, agent_id, agent_data)
     finally:
         db.close()

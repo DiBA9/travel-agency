@@ -17,6 +17,8 @@ class AgentDetails(Base):
     tools = Column(Text, nullable=False)
     llm_model_name = Column(String, nullable=False)
     llm_temperature = Column(Float, nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
 
 class CrewDetails(Base):
     __tablename__ = 'crew_details'
@@ -60,8 +62,8 @@ class TaskDetails(Base):
     output_file = Column(Text, nullable=True)  # Path to save the output file
     callback = Column(Text, nullable=True)  # String representation of a callable
     human_input = Column(Boolean, default=False)
-    created_at = Column(String, nullable=False)
-    updated_at = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
 
 class TripResults(Base):
     __tablename__ = 'trip_results'
@@ -71,8 +73,8 @@ class TripResults(Base):
     travel_dates = Column(String, nullable=False)
     interests = Column(String, nullable=False)
     result = Column(String, nullable=False)
-    created_at = Column(String, nullable=False)
-    updated_at = Column(String, nullable=False)
+    created_at = Column(DateTime, nullable=False)
+    updated_at = Column(DateTime, nullable=False)
 
 def init_db():
     Base.metadata.create_all(bind=engine)

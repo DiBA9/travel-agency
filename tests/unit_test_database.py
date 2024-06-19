@@ -28,7 +28,9 @@ def test_create_agent(test_db):
         goal='A test goal',
         tools='tool1,tool2',
         llm_model_name='test_model',
-        llm_temperature=0.7
+        llm_temperature=0.7,
+        created_at=datetime.datetime.now(),
+        updated_at=datetime.datetime.now()
     )
     created_agent = create_agent(test_db, agent_details)
     assert created_agent.role == 'Test Agent'
@@ -49,7 +51,8 @@ def test_read_all_agents(test_db):
 
 def test_update_agent(test_db):
     update_data = {
-        'goal': 'An updated test goal'
+        'goal': 'An updated test goal',
+        'updated_at': datetime.datetime.now()
     }
     updated_agent = update_agent(test_db, 1, update_data)
     assert updated_agent.goal == 'An updated test goal'
@@ -104,7 +107,8 @@ def test_read_all_crews(test_db):
 
 def test_update_crew(test_db):
     update_data = {
-        'description': 'An updated test crew'
+        'description': 'An updated test crew',
+        'updated_at': datetime.datetime.now()
     }
     updated_crew = update_crew(test_db, 1, update_data)
     assert updated_crew.description == 'An updated test crew'
@@ -152,7 +156,8 @@ def test_read_all_tasks(test_db):
 
 def test_update_task(test_db):
     update_data = {
-        'description': 'An updated test task'
+        'description': 'An updated test task',
+        'updated_at': datetime.datetime.now()
     }
     updated_task = update_task(test_db, 1, update_data)
     assert updated_task.description == 'An updated test task'
@@ -169,7 +174,9 @@ def test_create_trip_results(test_db):
         cities='City1,City2',
         travel_dates='2023-01-01 to 2023-01-10',
         interests='Interest1,Interest2',
-        result='Test result'
+        result='Test result',
+        created_at=datetime.datetime.now(),
+        updated_at=datetime.datetime.now()
     )
     created_trip_results = create_trip_results(test_db, trip_results)
     assert created_trip_results.origin == 'Test Origin'
@@ -190,7 +197,8 @@ def test_read_all_trip_results(test_db):
 
 def test_update_trip_results(test_db):
     update_data = {
-        'result': 'An updated test result'
+        'result': 'An updated test result',
+        'updated_at': datetime.datetime.now()
     }
     updated_trip_results = update_trip_results(test_db, 1, update_data)
     assert updated_trip_results.result == 'An updated test result'

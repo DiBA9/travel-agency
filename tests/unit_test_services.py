@@ -92,7 +92,9 @@ def test_create_agent_record(cleanup_db):
     tools = 'Test Tools'
     llm_model_name = 'Test Model'
     llm_temperature = 0.5
-    created_agent = create_agent_record(role, backstory, goal, tools, llm_model_name, llm_temperature)
+    created_at = datetime.datetime.now()
+    updated_at = datetime.datetime.now()
+    created_agent = create_agent_record(role, backstory, goal, tools, llm_model_name, llm_temperature, created_at, updated_at)
     track_created_ids(cleanup_db, created_agent, 'agent')
     assert created_agent.role == role
 
@@ -111,14 +113,17 @@ def test_retrieve_all_agents():
 
 def test_update_agent_record(cleanup_db):
     agent_id = cleanup_db['agent'][0]  # Get the first (and only) created agent ID
-    role = 'Test Role'
-    backstory = 'Updated Backstory'
-    goal = 'Updated Goal'
-    tools = 'Updated Tools'
-    llm_model_name = 'Updated Model'
-    llm_temperature = 0.7
-    updated_agent = update_agent_record(agent_id, role, backstory, goal, tools, llm_model_name, llm_temperature)
-    assert updated_agent.goal == goal
+    agent_data = dict(
+        role = 'Test Role',
+        backstory = 'Updated Backstory',
+        goal = 'Updated Goal',
+        tools = 'Updated Tools',
+        llm_model_name = 'Updated Model',
+        llm_temperature = 0.7,
+        updated_at = datetime.datetime.now()
+    )
+    updated_agent = update_agent_record(agent_id, agent_data)
+    assert updated_agent.goal == agent_data.get('goal')
 
 def test_delete_agent_record(cleanup_db):
     agent_id = cleanup_db['agent'][0]  # Get the first (and only) created agent ID
