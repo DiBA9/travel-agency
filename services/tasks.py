@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from database.models import SessionLocal, TaskDetails
 from database.crud import (
     create_task,
-    retrieve_task_by_id,
-    retrieve_task_by_name,
-    retrieve_all_tasks,
+    read_task_by_id,
+    read_task_by_name,
+    read_all_tasks,
     update_task,
     delete_task
 )
@@ -40,21 +40,21 @@ def create_task_record(name: str, description: str, agent: str, expected_output:
 def retrieve_task_by_id(task_id: int) -> TaskDetails:
     db: Session = SessionLocal()
     try:
-        return retrieve_task_by_id(db, task_id)
+        return read_task_by_id(db, task_id)
     finally:
         db.close()
 
 def retrieve_task_by_name(name: str) -> TaskDetails:
     db: Session = SessionLocal()
     try:
-        return retrieve_task_by_name(db, name)
+        return read_task_by_name(db, name)
     finally:
         db.close()
 
 def retrieve_all_tasks() -> List[TaskDetails]:
     db: Session = SessionLocal()
     try:
-        return retrieve_all_tasks(db)
+        return read_all_tasks(db)
     finally:
         db.close()
 

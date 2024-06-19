@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from database.models import SessionLocal, AgentDetails
 from database.crud import (
     create_agent,
-    retrieve_agent_by_id, 
-    retrieve_agent_by_role,
-    retrieve_all_agents,
+    read_agent_by_id, 
+    read_agent_by_role,
+    read_all_agents,
     update_agent,
     delete_agent
 )
@@ -28,21 +28,21 @@ def create_agent_record(role: str, backstory: str, goal: str, tools: str, llm_mo
 def retrieve_agent_by_id(agent_id: int) -> AgentDetails:
     db: Session = SessionLocal()
     try:
-        return retrieve_agent_by_id(db, agent_id)
+        return read_agent_by_id(db, agent_id)
     finally:
         db.close()
 
 def retrieve_agent_by_role(role: str) -> AgentDetails:
     db: Session = SessionLocal()
     try:
-        return retrieve_agent_by_role(db, role)
+        return read_agent_by_role(db, role)
     finally:
         db.close()
 
 def retrieve_all_agents() -> List[AgentDetails]:
     db: Session = SessionLocal()
     try:
-        return retrieve_all_agents(db)
+        return read_all_agents(db)
     finally:
         db.close()
 
@@ -63,7 +63,7 @@ def update_agent_record(agent_id: int, role: str, backstory: str, goal: str, too
 def update_agent_tools(agent_id: int, tools: str) -> AgentDetails:
     db: Session = SessionLocal()
     try:
-        agent = retrieve_agent_by_id(db, agent_id)
+        agent = read_agent_by_id(db, agent_id)
         if agent:
             agent.tools = tools
             db.commit()

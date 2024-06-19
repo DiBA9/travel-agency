@@ -71,6 +71,8 @@ class TripResults(Base):
     travel_dates = Column(String, nullable=False)
     interests = Column(String, nullable=False)
     result = Column(String, nullable=False)
+    created_at = Column(String, nullable=False)
+    updated_at = Column(String, nullable=False)
 
 def init_db():
     Base.metadata.create_all(bind=engine)

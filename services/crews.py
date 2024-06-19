@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from database.models import SessionLocal, CrewDetails
 from database.crud import (
     create_crew,
-    retrieve_crew_by_id,
-    retrieve_crew_by_name,
-    retrieve_all_crews,
+    read_crew_by_id,
+    read_crew_by_name,
+    read_all_crews,
     update_crew,
     delete_crew
 )
@@ -48,21 +48,21 @@ def create_crew_record(name: str, description: str, created_at: str, updated_at:
 def retrieve_crew_by_id(crew_id: int) -> CrewDetails:
     db: Session = SessionLocal()
     try:
-        return retrieve_crew_by_id(db, crew_id)
+        return read_crew_by_id(db, crew_id)
     finally:
         db.close()
 
 def retrieve_crew_by_name(name: str) -> CrewDetails:
     db: Session = SessionLocal()
     try:
-        return retrieve_crew_by_name(db, name)
+        return read_crew_by_name(db, name)
     finally:
         db.close()
 
-def retrieve_all_crew_records() -> List[CrewDetails]:
+def retrieve_all_crews() -> List[CrewDetails]:
     db: Session = SessionLocal()
     try:
-        return retrieve_all_crews(db)
+        return read_all_crews(db)
     finally:
         db.close()
 

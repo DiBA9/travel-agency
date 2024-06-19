@@ -11,3 +11,4 @@ poetry.lock
 
 #Cache folders
 __pycache__/
+.pytest_cache

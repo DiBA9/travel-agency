@@ -33,18 +33,18 @@ def test_create_agent(test_db):
     created_agent = create_agent(test_db, agent_details)
     assert created_agent.role == 'Test Agent'
 
-def test_retrieve_agent_by_id(test_db):
-    agent = retrieve_agent_by_id(test_db, 1)
+def test_read_agent_by_id(test_db):
+    agent = read_agent_by_id(test_db, 1)
     assert agent is not None
     assert agent.role == 'Test Agent'
 
-def test_retrieve_agent_by_role(test_db):
-    agent = retrieve_agent_by_role(test_db, 'Test Agent')
+def test_read_agent_by_role(test_db):
+    agent = read_agent_by_role(test_db, 'Test Agent')
     assert agent is not None
     assert agent.role == 'Test Agent'
 
-def test_retrieve_all_agents(test_db):
-    agents = retrieve_all_agents(test_db)
+def test_read_all_agents(test_db):
+    agents = read_all_agents(test_db)
     assert len(agents) > 0
 
 def test_update_agent(test_db):
@@ -56,7 +56,7 @@ def test_update_agent(test_db):
 
 def test_delete_agent(test_db):
     delete_agent(test_db, 1)
-    agent = retrieve_agent_by_id(test_db, 1)
+    agent = read_agent_by_id(test_db, 1)
     assert agent is None
 
 # Tests for CrewDetails
@@ -88,18 +88,18 @@ def test_create_crew(test_db):
     created_crew = create_crew(test_db, crew_details)
     assert created_crew.name == 'Test Crew'
 
-def test_retrieve_crew_by_id(test_db):
-    crew = retrieve_crew_by_id(test_db, 1)
+def test_read_crew_by_id(test_db):
+    crew = read_crew_by_id(test_db, 1)
     assert crew is not None
     assert crew.name == 'Test Crew'
 
-def test_retrieve_crew_by_name(test_db):
-    crew = retrieve_crew_by_name(test_db, 'Test Crew')
+def test_read_crew_by_name(test_db):
+    crew = read_crew_by_name(test_db, 'Test Crew')
     assert crew is not None
     assert crew.name == 'Test Crew'
 
-def test_retrieve_all_crews(test_db):
-    crews = retrieve_all_crews(test_db)
+def test_read_all_crews(test_db):
+    crews = read_all_crews(test_db)
     assert len(crews) > 0
 
 def test_update_crew(test_db):
@@ -111,7 +111,7 @@ def test_update_crew(test_db):
 
 def test_delete_crew(test_db):
     delete_crew(test_db, 1)
-    crew = retrieve_crew_by_id(test_db, 1)
+    crew = read_crew_by_id(test_db, 1)
     assert crew is None
 
 # Tests for TaskDetails
@@ -136,18 +136,18 @@ def test_create_task(test_db):
     created_task = create_task(test_db, task_details)
     assert created_task.name == 'Test Task'
 
-def test_retrieve_task_by_id(test_db):
-    task = retrieve_task_by_id(test_db, 1)
+def test_read_task_by_id(test_db):
+    task = read_task_by_id(test_db, 1)
     assert task is not None
     assert task.name == 'Test Task'
 
-def test_retrieve_task_by_name(test_db):
-    task = retrieve_task_by_name(test_db, 'Test Task')
+def test_read_task_by_name(test_db):
+    task = read_task_by_name(test_db, 'Test Task')
     assert task is not None
     assert task.name == 'Test Task'
 
-def test_retrieve_all_tasks(test_db):
-    tasks = retrieve_all_tasks(test_db)
+def test_read_all_tasks(test_db):
+    tasks = read_all_tasks(test_db)
     assert len(tasks) > 0
 
 def test_update_task(test_db):
@@ -159,7 +159,7 @@ def test_update_task(test_db):
 
 def test_delete_task(test_db):
     delete_task(test_db, 1)
-    task = retrieve_task_by_id(test_db, 1)
+    task = read_task_by_id(test_db, 1)
     assert task is None
 
 # Tests for TripResults
@@ -174,18 +174,18 @@ def test_create_trip_results(test_db):
     created_trip_results = create_trip_results(test_db, trip_results)
     assert created_trip_results.origin == 'Test Origin'
 
-def test_retrieve_trip_results_by_id(test_db):
-    trip_results = retrieve_trip_results_by_id(test_db, 1)
+def test_read_trip_results_by_id(test_db):
+    trip_results = read_trip_results_by_id(test_db, 1)
     assert trip_results is not None
     assert trip_results.origin == 'Test Origin'
 
-def test_retrieve_trip_results_by_origin(test_db):
-    trip_results = retrieve_trip_results_by_origin(test_db, 'Test Origin')
+def test_read_trip_results_by_origin(test_db):
+    trip_results = read_trip_results_by_origin(test_db, 'Test Origin')
     assert trip_results is not None
     assert trip_results.origin == 'Test Origin'
 
-def test_retrieve_all_trip_results(test_db):
-    trip_results = retrieve_all_trip_results(test_db)
+def test_read_all_trip_results(test_db):
+    trip_results = read_all_trip_results(test_db)
     assert len(trip_results) > 0
 
 def test_update_trip_results(test_db):
@@ -197,5 +197,5 @@ def test_update_trip_results(test_db):
 
 def test_delete_trip_results(test_db):
     delete_trip_results(test_db, 1)
-    trip_results = retrieve_trip_results_by_id(test_db, 1)
+    trip_results = read_trip_results_by_id(test_db, 1)
     assert trip_results is None
