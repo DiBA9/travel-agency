@@ -10,18 +10,26 @@ from database.crud import (
     delete_agent
 )
 
-def create_agent_record(role: str, backstory: str, goal: str, tools: str, llm_model_name: str, llm_temperature: float,
-        created_at, updated_at
+def create_agent_record(role: str, goal: str, backstory: str, llm: str, tools: str, function_calling_llm: str, 
+        max_iter: int, max_rpm: int, max_execution_time: int, verbose: bool, allow_delegation: bool, 
+        step_callback: str, cache: bool, created_at: str, updated_at: str
     ) -> AgentDetails:
     db: Session = SessionLocal()
     try:
         agent_details = AgentDetails(
             role=role,
-            backstory=backstory,
             goal=goal,
+            backstory=backstory,
+            llm=llm,
             tools=tools,
-            llm_model_name=llm_model_name,
-            llm_temperature=llm_temperature,
+            function_calling_llm=function_calling_llm,
+            max_iter=max_iter,
+            max_rpm=max_rpm,
+            max_execution_time=max_execution_time,
+            verbose=verbose,
+            allow_delegation=allow_delegation,
+            step_callback=step_callback,
+            cache=cache,
             created_at=created_at,
             updated_at=updated_at
         )

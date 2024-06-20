@@ -87,14 +87,23 @@ def track_created_ids(created_ids, instance, model_type):
 # Tests for AgentDetails
 def test_create_agent_record(cleanup_db):
     role = 'Test Role'
-    backstory = 'Test Backstory'
     goal = 'Test Goal'
+    backstory = 'Test Backstory'
+    llm = 'Test Model'
     tools = 'Test Tools'
-    llm_model_name = 'Test Model'
-    llm_temperature = 0.5
+    function_calling_llm = None
+    max_iter = None
+    max_rpm = None
+    max_execution_time = None
+    verbose = True
+    allow_delegation = None
+    step_callback = None
+    cache = None
     created_at = datetime.datetime.now()
     updated_at = datetime.datetime.now()
-    created_agent = create_agent_record(role, backstory, goal, tools, llm_model_name, llm_temperature, created_at, updated_at)
+    created_agent = create_agent_record(role, goal, backstory, llm, tools, function_calling_llm, max_iter, 
+        max_rpm, max_execution_time, verbose, allow_delegation, step_callback, cache, created_at, updated_at
+    )
     track_created_ids(cleanup_db, created_agent, 'agent')
     assert created_agent.role == role
 
@@ -115,11 +124,18 @@ def test_update_agent_record(cleanup_db):
     agent_id = cleanup_db['agent'][0]  # Get the first (and only) created agent ID
     agent_data = dict(
         role = 'Test Role',
-        backstory = 'Updated Backstory',
         goal = 'Updated Goal',
+        backstory = 'Updated Backstory',
+        llm = 'Updated LLM',
         tools = 'Updated Tools',
-        llm_model_name = 'Updated Model',
-        llm_temperature = 0.7,
+        function_calling_llm = None,
+        max_iter = None,
+        max_rpm = None,
+        max_execution_time = None,
+        verbose = False,
+        allow_delegation = None,
+        step_callback = None,
+        cache = None,
         updated_at = datetime.datetime.now()
     )
     updated_agent = update_agent_record(agent_id, agent_data)

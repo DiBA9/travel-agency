@@ -2,7 +2,14 @@ from crewai import Agent
 from textwrap import dedent
 from langchain_openai import ChatOpenAI
 from controllers.tools import load_tool
-from services.agent import retrieve_agent_by_role
+from services.agents import (
+    create_agent_record,
+    retrieve_agent_by_id,
+    retrieve_agent_by_role,
+    retrieve_all_agents,
+    update_agent_record,
+    delete_agent_record
+)
 
 class Agents:
     def __init__(self):
@@ -16,7 +23,6 @@ class Agents:
 
         tools = agent_details.tools.split(',')
         print(f"Tools to load: {tools}")  # Debugging statement
-        llm = ChatOpenAI(model_name=agent_details.llm_model_name, temperature=agent_details.llm_temperature)
 
         tool_instances = []
         for tool in tools:

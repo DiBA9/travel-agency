@@ -24,11 +24,18 @@ def test_db():
 def test_create_agent(test_db):
     agent_details = AgentDetails(
         role='Test Agent',
-        backstory='A test backstory',
         goal='A test goal',
+        backstory='A test backstory',
+        llm='Test Model',
         tools='tool1,tool2',
-        llm_model_name='test_model',
-        llm_temperature=0.7,
+        function_calling_llm='test_model',
+        max_iter=None,
+        max_rpm=None,
+        max_execution_time=None,
+        verbose=True,
+        allow_delegation=None,
+        step_callback=None,
+        cache=None,    
         created_at=datetime.datetime.now(),
         updated_at=datetime.datetime.now()
     )
